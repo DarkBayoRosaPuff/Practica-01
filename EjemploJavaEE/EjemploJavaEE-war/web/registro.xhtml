@@ -24,20 +24,22 @@
         <div>            
             <h:form >
                 <br> </br>
+                <b>Fecha de captura: </b>
+                <h:inputText id="Fecha" binding="#{fecha}" />
+                <b>(Formato YYYY-MM-DD)</b>
+                
+                <br> </br>
                 <b>Nombre del capturista: </b>
                 <h:inputText id="Nombre-capturista" binding="#{nombre}" />
 
                 <br> </br>
                 <b>Ganancia bruta: </b>
                 <h:inputText id="Cantidad" binding="#{cantidad}" />
+                <b>(Dato numerico)</b>
                 
-                <br> </br>
-                <b>Fecha de captura: </b>
-                <h:inputText id="Fecha" binding="#{fecha}" />
-                <h6>(Formato YYYY-MM-DD)</h6>
-                
+                <br> </br>                                
                 <h:commandButton id="solicitar" value="Guardar"
-                                 action="#{anfitrion.atiende(nombre.value,cantidad.value,cantidad.value,fecha.value)}" />
+                                 action="#{anfitrion.atiende(nombre.value, cantidad.value, fecha.value)}" />
                 <!--
                 Si necesitara validar un rango en un dato de entrada, puede usar
                 algo como lo siguiente con las etiqeutas "f:"
@@ -46,28 +48,21 @@
                 </h:inputText>
                 -->
             </h:form>
-            <br> </br>
             
-            <p>-Capturista registrado:
-            "#{anfitrion.AManipular}"</p>
-             <p>-Ganancia bruta registrada: 
-             "#{anfitrion.bruto}"</p>
-            <p>-Ganancia neta registrada: 
-             "#{anfitrion.cantidad}"</p>
+            <br> </br>
             <p>-Fecha registrada:
               "#{anfitrion.fecha}" </p>
-            <!--
+            <p>-Capturista registrado:
+            "#{anfitrion.AManipular}"</p>
+            <p>-Ganancia bruta registrada: 
+             "#{anfitrion.bruto}"</p>
             <p>-IVA registrado:
-              "#{anfitrion.fecha}" </p>
-            <p>-Ganancia neta registrada:
-              "#{anfitrion.fecha}" </p>
-            -->
+              "#{anfitrion.IVA}" </p>
+            <p>-Ganancia neta registrada: 
+             "#{anfitrion.cantidad}"</p>            
             
             <br> </br>
-            <a href="graph.xhtml" >Ver estadisticas</a>
-            <br> </br>
-            
-            <p>La base de datos contiene:</p>
+            <p>-Contenidos de la base de datos-</p>
             <table>
                 <tr>
                     <th >Fecha</th>
@@ -80,12 +75,16 @@
                     <tr >
                         <td>#{resultado.fecha}</td>
                         <td>|#{resultado.capturista}</td>
-                        <td>|#{resultado.ventaBruta}</td>
-                        <td>|#{resultado.IVA}</td>
-                        <td>|#{resultado.ventaNeta}</td>
+                        <td>|$#{resultado.ventaBruta}</td>
+                        <td>|$#{resultado.IVA}</td>
+                        <td>|$#{resultado.ventaNeta}</td>
                     </tr>
                 </ui:repeat>
             </table>
+            
+            <br> </br>
+            <a href="graph.xhtml" >-Ver estadisticas</a>
+            <br> </br>
             
         </div>
     </body>

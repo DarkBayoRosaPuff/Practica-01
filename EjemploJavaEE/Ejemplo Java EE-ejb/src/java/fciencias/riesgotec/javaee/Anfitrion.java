@@ -16,85 +16,84 @@ import javax.faces.context.FacesContext;
  */
 @ApplicationScoped
 public class Anfitrion {
-    
-    /**
-     * Cadena a manipular al atender la petici&oacute;n.
-     * @since Anfitrion 1.0, february 2016.
-     */
-    private int contador;
-    private String aManipular;
-    private int cantidad;
-    private int bruto;
-    private String fecha;
-    // métodos de acceso
         
-    public String getAManipular() {
-        return aManipular;
-    }//getaManipular
-
+    private String fecha;
+    private String AManipular;
+    private double bruto;
+    private double IVA;
+    private double cantidad;
+    
      public String getFecha() {
         return fecha;
     }   
-    
-    public int getCantidad() {
-       return cantidad;
-    }
-    
-    public int getBruto() {
-        return bruto;
-    }
-
-    public int getContador() {
-        return contador;
-    }
-    
-    public void setAManipular(String aManipular) {
-        this.aManipular = aManipular;
-    }//setaManipular
-    
+     
     public void setFecha(String fecha){
         this.fecha = fecha;
     }
-    
-    public void setCantidad(int cantidad){
-        this.cantidad = cantidad;
+
+    public String getAManipular() {
+        return AManipular;
+    }
+
+    public void setAManipular(String aManipular) {
+        this.AManipular = aManipular;
+    }    
+        
+    public double getBruto() {
+        return bruto;
     }
     
     public void setBruto(int bruto){
         this.bruto = cantidad;
     }
     
-    // métodos de implementación
+    public double getIVA() {
+        return IVA;
+    }
+
+    public void setIVA(double IVA) {
+        this.IVA = IVA;
+    }
     
+    public double getCantidad() {
+       return cantidad;
+    }
+    
+    public void setCantidad(int cantidad){
+        this.cantidad = cantidad;
+    }
     
     /**
      * M&eacute;todo que ejemplifica el atender la petici&oacute;n de un
      * cliente.
      * @param nombre
-     * @param bruto
-     * @param cantidad
-     * @param fecha
+     * @param bru
+     * @param fec
      * @throws IOException - Si hay un problema al abrir el archivo     
      * @throws java.sql.SQLException
      * @throws java.lang.ClassNotFoundException
      * @since Anfitrion 1.0, february 2016.
      * <tt>index.xhtml</tt> en el proyecto WAR.
      */
-    public void atiende(String nombre,int bruto,int cantidad,String fecha) throws IOException, SQLException, ClassNotFoundException {
+    public void atiende(String nombre, double bru, String fec) throws IOException, SQLException, ClassNotFoundException {
         
-        contador++;
-        this.aManipular = nombre;
-        this.fecha = fecha;
-        this.bruto = cantidad;
-        this.cantidad = (int) ((int) cantidad - (cantidad*0.16));
+        this.fecha = fec;
+        this.AManipular = nombre;
+        this.bruto = bru;
+        this.IVA = bruto*.16;
+        this.cantidad = bruto-IVA;
         
         //Insertar en la base de datos los datos obtenidos
         Class.forName("org.postgresql.Driver");
         Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Impuestos", "postgres", "12345");
         Statement stmt = con.createStatement();        
         String query = "INSERT INTO ventas VALUES"
-                + "('2015-10-10','" +aManipular+ "', 666, 16, 600);";
-        stmt.executeQuery(query); //Insertando en la base de datos
+                + "('" +fecha+ "', "
+                + "'" +AManipular+ "', "
+                + bruto +", "
+                + IVA + ", "
+                + cantidad +");";
+        stmt.executeUpdate(query); //Insertando en la base de datos
                 
         FacesContext.getCurrentInstance().getExternalContext()
                 .redirect("index.xhtml");
