@@ -1,28 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html" xml:lang="es" lang="es" 
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core" >
-    <head>
-        <title>Ejemplo de aplicaci&oacute;n web hecha en Java</title>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <meta charset="UTF-8"/>
-        <meta name="author" content="DarkBayo" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        #{pintor.paintGraph()}
-        <div><h1>Estad&iacute;sticas de las ventas</h1>
+    
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta charset="UTF-8"/>
+<meta name="author" content="DarkBayo" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Estadisticas</title>
+<link rel="icon" type="image/png" href="images/favicon.ico"></link>
+<link href='http://fonts.googleapis.com/css?family=Trocchi' rel='stylesheet' type='text/css' />
+<link href="css/styles.css" rel="stylesheet" type="text/css" />
+</head>
+    
+<body>
+    #{pintor.paintGraph()}
+    <div class="wrapper">
+        <div class="menu">
+            <ul>
+                <li><a>Estadisticas de las ventas</a></li>
+            </ul>            
+        </div>
             <img src="img/grafica.png" alt="graficos" title="graficos" />
             <p/>
+            <p>#{pintor.pronostico}</p>
+            <br> </br>
             <a href="img/grafica.png" title="descargar" >
-                Descargar gr&aacute;fico estad&iacute;stico
+                Descargar grafico estadistico
             </a>
             <p/>
             <a href="index.xhtml" >Volver a la p&aacute;gina principal</a>
-            <hr/>
-            <p>Yolo;</p>
-        </div>
-    </body>
+    </div>
+</body>
+
 </html>

@@ -4,10 +4,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import javax.enterprise.context.ApplicationScoped;
 import javax.imageio.ImageIO;
 
@@ -22,7 +25,15 @@ import javax.imageio.ImageIO;
 @ApplicationScoped
 public class Pintor {
     
-    // métodos de implementación
+    private String pronostico;
+
+    public String getPronostico() {
+        return pronostico;
+    }
+
+    public void setPronostico(String pronostico) {
+        this.pronostico = pronostico;
+    }
     
     /**
      * Pinta una gr&aacute;fica en un PNG llamado <tt>"grafica.png"</tt>.
@@ -35,11 +46,12 @@ public class Pintor {
         BufferedImage graf =
                 new BufferedImage(1000, 500, BufferedImage.TYPE_4BYTE_ABGR);
         
-        // comprobamos si existe el directorio img
-        // creamos el archivo donde vamos aguardar la imagen
-        File png = Paths.get("/", "home", "Jorge Garcia", "Descargas",
-                "EjemploJavaEE", "EjemploJavaEE-war", "build", "web","img",
-                "grafica.png").toFile();
+        // Creamos el archivo donde vamos aguardar la imagen
+        // (Modificar de acuerdo a la ruta actual)
+        Path ruta = Paths.get("C:","Users", "Kikinzco","Desktop","Escuela","Semestre 6","Riesgo",
+                "Practica 1", "Practica-01","EjemploJavaEE","EjemploJavaEE-war","build","web","img",
+                "grafica.png");                
+        File png = ruta.toFile();
         png.mkdirs();
         png.createNewFile();
         
@@ -65,56 +77,78 @@ public class Pintor {
         // restauramos la configuración original del plano
         g.setTransform(original);
         // dibujamos el perímetro de un rectángulo
-        g.drawRect(790, 100, 200, 100);
+        g.drawRect(760, 100, 190, 100);
         
         // cambiamos el color de dibujado
         g.setColor(Color.red);
         // dibujamos el área de un rectángulo
         g.fillRect(810, 110, 20, 20);
+        
         g.setColor(Color.green);
         g.fillRect(810, 140, 20, 20);
+        
         g.setColor(Color.blue);
         g.fillRect(810, 170, 20, 20);
+        
         g.setColor(Color.black);
         g.setFont(new Font("Arial", Font.PLAIN, 15));
         g.drawString("Brutas", 850, 125);
         g.drawString("Impuestos", 850, 155);
         g.drawString("Netas", 850, 185);
+        //Obteniendo registros de la base de datos
+        Consultor consultorBase = new Consultor();
+        ObjetoBD[] tuplas = new ObjetoBD[1];
+        try{tuplas = consultorBase.consultar();
+        }catch(SQLException | ClassNotFoundException e){System.err.println(e);}
+        int nTuplas = tuplas.length;
+        //Parametros para ubicacion de las graficas
+        double reglaX = 700/nTuplas;
+        double xN, yN;
+        //Brutas
+        double x1 = 50;
+        double y1 = 450;
         g.setColor(Color.red);
-        g.drawLine(50, 450, 100, 275);
-        g.drawLine(100, 275, 180, 250);
-        g.drawLine(180, 250, 260, 175);
-        g.drawLine(260, 175, 340, 325);
-        g.drawLine(340, 325, 420, 300);
-        g.drawLine(420, 300, 500, 350);
-        g.drawLine(500, 350, 580, 275);
-        g.drawLine(580, 275, 660, 250);
-        g.drawLine(660, 250, 740, 200);
-        
+        for(int i = 0; i < nTuplas; i++){
+            xN = x1+reglaX;
+            double altura = Double.parseDouble(tuplas[i].getVentaBruta());
+            yN = 450 - altura/60;
+            g.draw(new Line2D.Double(x1,y1,xN,yN));
+            x1 = xN;
+            y1 = yN;
+        }
+        //Impuestos
+        x1 = 50;
+        y1 = 450;
         g.setColor(Color.green);
-        g.drawLine(50, 450, 100, 400);
-        g.drawLine(100, 400, 180, 375);
-        g.drawLine(180, 375, 260, 350);
-        g.drawLine(260, 350, 340, 425);
-        g.drawLine(340, 425, 420, 400);
-        g.drawLine(420, 400, 500, 425);
-        g.drawLine(500, 425, 580, 400);
-        g.drawLine(580, 400, 660, 375);
-        g.drawLine(660, 375, 740, 350);
-        
+        for(int i = 0; i < nTuplas; i++){
+            xN = x1+reglaX;
+            double altura = Double.parseDouble(tuplas[i].getIVA());
+            yN = 450 - altura/60;
+            g.draw(new Line2D.Double(x1,y1,xN,yN));
+            x1 = xN;
+            y1 = yN;
+        }
+        //Netas
+        x1 = 50;
+        y1 = 450;
         g.setColor(Color.blue);
-        g.drawLine(50, 450, 100, 325);
-        g.drawLine(100, 325, 180, 300);
-        g.drawLine(180, 300, 260, 250);
-        g.drawLine(260, 250, 340, 375);
-        g.drawLine(340, 375, 420, 350);
-        g.drawLine(420, 350, 500, 375);
-        g.drawLine(500, 375, 580, 325);
-        g.drawLine(580, 325, 660, 300);
-        g.drawLine(660, 300, 740, 250);
-        g.dispose();
+        for(int i = 0; i < nTuplas; i++){
+            xN = x1+reglaX;
+            double altura = Double.parseDouble(tuplas[i].getVentaNeta());
+            yN = 450 - altura/60;
+            g.draw(new Line2D.Double(x1,y1,xN,yN));
+            x1 = xN;
+            y1 = yN;
+        }
         
+        g.dispose();        
         ImageIO.write(graf, "PNG", png);
+        double gananciaAnterior = Double.parseDouble(tuplas[nTuplas-2].getVentaNeta());
+        double gananciaActual = Double.parseDouble(tuplas[nTuplas-1].getVentaNeta());
+        if(gananciaActual > gananciaAnterior)
+            pronostico = "Las ventas han mejorado c:";
+        else
+            pronostico = "Las ventas han empeorado :c";
     }//paintGraph
     
 }//clase Pintor

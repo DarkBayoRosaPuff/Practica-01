@@ -20,7 +20,7 @@ public class Consultor {
         Class.forName("org.postgresql.Driver");
         Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Impuestos", "postgres", "12345");
         Statement stmt = con.createStatement();        
-        String query = "SELECT * FROM Ventas;";
+        String query = "SELECT * FROM Ventas ORDER BY fecha_de_captura;";
         ResultSet resultados = stmt.executeQuery(query); //Sacando de la base de datos
         
         LinkedList<ObjetoBD> salida = new LinkedList<>();
