@@ -30,9 +30,11 @@ public class Pintor {
      * @since Pintor 1.0, february 2016
      */
     public void paintGraph() throws IOException {
+        
         // creamos un buffer de imagen con dimenciones y propiedades dadas
         BufferedImage graf =
                 new BufferedImage(1000, 500, BufferedImage.TYPE_4BYTE_ABGR);
+        
         // comprobamos si existe el directorio img
         // creamos el archivo donde vamos aguardar la imagen
         File png = Paths.get("/", "home", "Jorge Garcia", "Descargas",
@@ -40,8 +42,10 @@ public class Pintor {
                 "grafica.png").toFile();
         png.mkdirs();
         png.createNewFile();
+        
         // recuperamos los gráficos para empezar a dibujar
         Graphics2D g = graf.createGraphics();
+        
         // asignamos un color para el dibujado
         g.setColor(Color.black);
         // dibujamos los ejes
@@ -62,6 +66,7 @@ public class Pintor {
         g.setTransform(original);
         // dibujamos el perímetro de un rectángulo
         g.drawRect(790, 100, 200, 100);
+        
         // cambiamos el color de dibujado
         g.setColor(Color.red);
         // dibujamos el área de un rectángulo
@@ -85,6 +90,7 @@ public class Pintor {
         g.drawLine(500, 350, 580, 275);
         g.drawLine(580, 275, 660, 250);
         g.drawLine(660, 250, 740, 200);
+        
         g.setColor(Color.green);
         g.drawLine(50, 450, 100, 400);
         g.drawLine(100, 400, 180, 375);
@@ -95,6 +101,7 @@ public class Pintor {
         g.drawLine(500, 425, 580, 400);
         g.drawLine(580, 400, 660, 375);
         g.drawLine(660, 375, 740, 350);
+        
         g.setColor(Color.blue);
         g.drawLine(50, 450, 100, 325);
         g.drawLine(100, 325, 180, 300);
@@ -106,6 +113,7 @@ public class Pintor {
         g.drawLine(580, 325, 660, 300);
         g.drawLine(660, 300, 740, 250);
         g.dispose();
+        
         ImageIO.write(graf, "PNG", png);
     }//paintGraph
     

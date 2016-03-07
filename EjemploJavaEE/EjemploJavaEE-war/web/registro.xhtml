@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html" xml:lang="es" lang="es" 
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core" >
+    
     <head>
         <title>Ejemplo de aplicaci&oacute;n web hecha en Java</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -15,42 +17,25 @@
         encabezado de la siguiente forma:
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
         <script type="text/Yjavascript" src="js/algun.js" ></script>
-        
-        También puede incluir archivos CSS para estilo:
-        <link rel="stylesheet" href="css/algun.css" />
-        <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css" />
-        
-        Si posee un favicon en alguna parte del servidor, puede incluirlo
-        también:
-        <link rel="icon" type="image/png" href="img/favicon.ico"></link>
         -->
     </head>
+    
     <body>
-        <!--
-        Este comentario ejemplifica el uso de las etiqeutas "ui:"
-        Suponga que su aplicación web presenta el mismo encabezado en todas
-        las páginas. Puede definirlo en un archivo "encabezadoporejemplo.xhtml"
-        e importarlo en todas las demás. Para mayor orden, podría organizarlo
-        en alguna subcarpeta a partir del nievel de index.xhtml
-        <ui:insert >
-            <ui:include src="ruta/archivo/xhtml/encabezadoporejemplo.xhtml" />
-        </ui:insert>
-        
-        Esto insertará el código del archivo solicitado tal cual.
-        -->
-        <div>
-            
+        <div>            
             <h:form >
                 <br> </br>
                 <b>Nombre del capturista: </b>
                 <h:inputText id="Nombre-capturista" binding="#{nombre}" />
+
                 <br> </br>
-                <b>Cantidad bruta: </b>
+                <b>Ganancia bruta: </b>
                 <h:inputText id="Cantidad" binding="#{cantidad}" />
+                
                 <br> </br>
                 <b>Fecha de captura: </b>
                 <h:inputText id="Fecha" binding="#{fecha}" />
                 <h6>(Formato YYYY-MM-DD)</h6>
+                
                 <h:commandButton id="solicitar" value="Guardar"
                                  action="#{anfitrion.atiende(nombre.value,cantidad.value,cantidad.value,fecha.value)}" />
                 <!--
@@ -60,9 +45,9 @@
                     <f:validateLongRange minimum="0" />
                 </h:inputText>
                 -->
-            </h:form>            
-            
+            </h:form>
             <br> </br>
+            
             <p>-Capturista registrado:
             "#{anfitrion.AManipular}"</p>
              <p>-Ganancia bruta registrada: 
@@ -71,21 +56,33 @@
              "#{anfitrion.cantidad}"</p>
             <p>-Fecha registrada:
               "#{anfitrion.fecha}" </p>
+            <!--
+            <p>-IVA registrado:
+              "#{anfitrion.fecha}" </p>
+            <p>-Ganancia neta registrada:
+              "#{anfitrion.fecha}" </p>
+            -->
             
             <br> </br>
-            <a href="graph.xhtml" >Ver estad&iacute;sticas</a>
+            <a href="graph.xhtml" >Ver estadisticas</a>
             <br> </br>
             
             <p>La base de datos contiene:</p>
             <table>
                 <tr>
-                    <th >ID</th>
-                    <th >Valor</th>
+                    <th >Fecha</th>
+                    <th >|Capturista</th>
+                    <th >|Ganancia Bruta</th>
+                    <th >|IVA generado</th>
+                    <th >|Venta Neta</th>
                 </tr>
                 <ui:repeat value="#{consultor.consultar()}" var="resultado" >
                     <tr >
-                        <td >#{resultado.id}</td>
-                        <td >#{resultado.valor}</td>
+                        <td>#{resultado.fecha}</td>
+                        <td>|#{resultado.capturista}</td>
+                        <td>|#{resultado.ventaBruta}</td>
+                        <td>|#{resultado.IVA}</td>
+                        <td>|#{resultado.ventaNeta}</td>
                     </tr>
                 </ui:repeat>
             </table>
